@@ -1,10 +1,14 @@
 defmodule WordFinder do
-	def main do
-    get_word_from_user |> display_word_count
+	def main([file]) do
+    get_word_from_user |> display_word_count(file)
   end
 
-  def display_word_count(word) do
-  	File.read("text.txt")
+  def main(_) do
+    IO.puts("Give one file name as an argument")
+  end
+
+  def display_word_count(word, file) do
+  	File.read(file)
     |> make_list_of_strings
     |> get_count_of_word_appearance(word)
     |> print_the_word_count
@@ -12,19 +16,20 @@ defmodule WordFinder do
 
   def make_list_of_strings({:ok, contents}) do
   	String.downcase(contents)
-		|>String.codepoints
-		|>Enum.filter(fn c -> c =~ ~r/[a-z]/ or c =~ ~r/[ ]/ end)
-		|>List.to_string
-		|>String.split(" ")
+		|> String.codepoints
+		|> Enum.filter(fn c -> c =~ ~r/[a-z]/ or c =~ ~r/[ ]/ end)
+		|> List.to_string
+		|> String.split(" ")
   end
 
   def make_list_of_strings({:error, _}) do
-  	IO.puts("Oops something went wrong")
+  	IO.puts("File not found")
+    System.halt(1)
   end
 
   def get_word_from_user do
   	IO.gets("What is the word you are looking for?")
-  	|>String.strip
+  	|> String.strip
   end
 
 	def get_count_of_word_appearance(list_of_first_string, target_word) do
