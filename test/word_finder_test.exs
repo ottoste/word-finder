@@ -27,5 +27,4 @@ defmodule WordFinderTest do
   test "need to remove punctuation from string" do
   	assert WordFinder.make_list_of_strings({:ok, "Hello, world!"}) == ["hello","world"]
   end
-
 end

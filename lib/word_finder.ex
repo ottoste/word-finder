@@ -1,5 +1,6 @@
 defmodule WordFinder do
-	def main([file]) do
+	
+  def main([file]) do
     get_word_from_user |> display_word_count(file)
   end
 
